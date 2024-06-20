@@ -1,0 +1,28 @@
+<launch>
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find turtlebot3_gazebo)/worlds/empty.world"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+  
+  <!-- Spawn first TurtleBot3 -->
+  <group ns="tb3_1">
+    <param name="robot_description" command="$(find xacro)/xacro '$(find turtlebot3_description)/urdf/turtlebot3_burger.urdf.xacro'" />
+    <node pkg="gazebo_ros" type="spawn_model" name="spawn_urdf" output="screen" args="-urdf -model tb3_1 -x 0 -y 0 -z 0.5 -param robot_description" />
+  </group>
+
+  <!-- Spawn second TurtleBot3 -->
+  <group ns="tb3_2">
+    <param name="robot_description" command="$(find xacro)/xacro '$(find turtlebot3_description)/urdf/turtlebot3_burger.urdf.xacro'" />
+    <node pkg="gazebo_ros" type="spawn_model" name="spawn_urdf" output="screen" args="-urdf -model tb3_2 -x 0 -y 2 -z 0.5 -param robot_description" />
+  </group>
+  
+  <!-- Spawn third TurtleBot3 -->
+  <group ns="tb3_3">
+    <param name="robot_description" command="$(find xacro)/xacro '$(find turtlebot3_description)/urdf/turtlebot3_burger.urdf.xacro'" />
+    <node pkg="gazebo_ros" type="spawn_model" name="spawn_urdf" output="screen" args="-urdf -model tb3_3 -x 2 -y 0 -z 0.5 -param robot_description" />
+  </group>
+</launch>

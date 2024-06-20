@@ -1,0 +1,8 @@
+prefix=/home/fachrurrozi18/swarm_ws/install
+
+Name: swarm
+Description: Description of swarm
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
