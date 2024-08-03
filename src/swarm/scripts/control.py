@@ -5,7 +5,9 @@ from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
 import numpy as np
 import tf
+import csv
 
+# Global variables to store the positions and orientations
 positions = []
 orientations = []
 
@@ -41,14 +43,22 @@ def publish_to_multiple_topics(num_agents):
         cmd_vel_topic = f'/tb3_{i}/cmd_vel'
         publishers.append(rospy.Publisher(cmd_vel_topic, Twist, queue_size=10))
 
-    rate = rospy.Rate(10) 
+    rate = rospy.Rate(10) # 10 Hz
     moves = [Twist() for _ in range(num_agents)]
 
+    with open('log.csv', 'w') as fd:
+        pass
     while not rospy.is_shutdown():
         z = np.array(positions)
+        with open('log.csv', 'a') as fd:
+            fd.write(str(rospy.get_time()) + "," + ",".join(map(str, z.flatten())) + "\n")
         r = np.array([[np.cos(orientations[i]), np.sin(orientations[i])] for i in range(num_agents)])
         s = np.array([[-np.sin(orientations[i]), np.cos(orientations[i])] for i in range(num_agents)])
 
+        #this for skenario if 1 agent stationary
+        # moves[0].linear.x = 0
+        # moves[0].angular.z = 0
+        # for i in range(1,num_agents):
         for i in range(num_agents):
             lin_x = 0
             ang_z = 0
